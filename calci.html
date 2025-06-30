@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.3s ease;
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      width: 320px;
+    }
+
+    #display {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 32px;
+      color: #0f0;
+      font-family: 'Courier New', monospace;
+      text-align: right;
+      margin-bottom: 20px;
+      min-height: 50px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    button {
+      height: 60px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .operator {
+      background-color: #ff9500;
+    }
+
+    .equals {
+      background-color: #34c759;
+      grid-column: span 2;
+    }
+
+    .clear {
+      background-color: #ff3b30;
+      grid-column: span 2;
+    }
+
+    .dark-mode-toggle {
+      margin-top: 20px;
+      width: 100%;
+      background: #fff;
+      color: #000;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      transition: 0.3s ease;
+    }
+
+    .dark body {
+      background: #121212;
+    }
+
+    .dark .calculator {
+      background: rgba(60, 60, 60, 0.8);
+    }
+
+    .dark #display {
+      background: #000;
+      color: #0f0;
+    }
+
+    .dark .dark-mode-toggle {
+      background: #444;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <div id="display">0</div>
+  <div class="buttons">
+    <button onclick="addToCalc('7')">7</button>
+    <button onclick="addToCalc('8')">8</button>
+    <button onclick="addToCalc('9')">9</button>
+    <button class="operator" onclick="addToCalc('+')">+</button>
+
+    <button onclick="addToCalc('4')">4</button>
+    <button onclick="addToCalc('5')">5</button>
+    <button onclick="addToCalc('6')">6</button>
+    <button class="operator" onclick="addToCalc('-')">-</button>
+
+    <button onclick="addToCalc('1')">1</button>
+    <button onclick="addToCalc('2')">2</button>
+    <button onclick="addToCalc('3')">3</button>
+    <button class="operator" onclick="addToCalc('*')">×</button>
+
+    <button onclick="addToCalc('0')">0</button>
+    <button onclick="addToCalc('.')">.</button>
+    <button class="operator" onclick="addToCalc('/')">÷</button>
+    <button class="clear" onclick="clearCalc()">C</button>
+
+    <button class="equals" onclick="calculate()">=</button>
+  </div>
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()" ; onclick =" 'Toggle Dark Mode' ? 'Switch to Light Mode' : 'Toggle Dark Mode'">Toggle Dark Mode</button> 
+</div>
+
+<script>
+  let calculation = "";
+
+  function updateDisplay() {
+    const display = document.getElementById("display");
+    display.textContent = calculation || "0";
+  }
+
+  function addToCalc(val) {
+    const operators = ['+', '-', '*', '/'];
+    const last = calculation.slice(-1);
+
+    if (operators.includes(val) && operators.includes(last)) return;
+    calculation += val;
+    updateDisplay();
+  }
+
+  function clearCalc() {
+    calculation = "";
+    updateDisplay();
+  }
+
+  function calculate() {
+    try {
+      calculation = Function('"use strict";return (' + calculation + ')')().toString();
+    } catch {
+      calculation = "Error";
+    }
+    updateDisplay();
+  }
+
+  function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+  }
+
+  updateDisplay();
+</script>
+
+</body>
+</html>

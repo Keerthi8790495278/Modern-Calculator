@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glassmorphic Calculator</title>
+<style>
+  /* Reset */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(135deg, #dbeafe, #fef9f0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #calculator {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 24px;
+    box-shadow:
+      0 8px 32px 0 rgba(31, 38, 135, 0.37),
+      0 0 0 1px rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 30px 32px 36px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #display {
+    background: rgba(255,255,255,0.5);
+    border-radius: 20px;
+    padding: 20px 24px;
+    font-size: 36px;
+    color: #1e293b; /* dark slate */
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.6);
+    user-select: text;
+    min-height: 60px;
+    margin-bottom: 28px;
+    overflow-wrap: break-word;
+  }
+
+  #buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.45);
+    border: none;
+    border-radius: 20px;
+    padding: 18px 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1e293b;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.65);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  }
+
+  button:active {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+  }
+
+  button.operator {
+    background: #2563eb; /* blue */
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+  }
+
+  button.operator:hover {
+    background: #1e40af;
+    box-shadow: 0 8px 20px rgba(30, 64, 175, 0.6);
+  }
+
+  button.operator:active {
+    background: #1e3a8a;
+    box-shadow: inset 0 3px 8px rgba(30, 58, 138, 0.7);
+  }
+
+  button.clear {
+    grid-column: span 4;
+    background: #ef4444; /* red */
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.5);
+  }
+
+  button.clear:hover {
+    background: #b91c1c;
+    box-shadow: 0 8px 20px rgba(185, 28, 28, 0.6);
+  }
+
+  button.clear:active {
+    background: #991b1b;
+    box-shadow: inset 0 3px 8px rgba(153, 27, 27, 0.7);
+  }
+</style>
+</head>
+<body>
+
+<div id="calculator" role="application" aria-label="Calculator">
+  <div id="display" aria-live="polite" aria-atomic="true">0</div>
+  <div id="buttons" role="group" aria-label="Calculator Buttons">
+    <button onclick="calculation+='7'; updateDisplay();" aria-label="Seven">7</button>
+    <button onclick="calculation+='8'; updateDisplay();" aria-label="Eight">8</button>
+    <button onclick="calculation+='9'; updateDisplay();" aria-label="Nine">9</button>
+    <button onclick="calculation+='+'; updateDisplay();" class="operator" aria-label="Add">+</button>
+
+    <button onclick="calculation+='4'; updateDisplay();" aria-label="Four">4</button>
+    <button onclick="calculation+='5'; updateDisplay();" aria-label="Five">5</button>
+    <button onclick="calculation+='6'; updateDisplay();" aria-label="Six">6</button>
+    <button onclick="calculation+='-'; updateDisplay();" class="operator" aria-label="Subtract">-</button>
+
+    <button onclick="calculation+='1'; updateDisplay();" aria-label="One">1</button>
+    <button onclick="calculation+='2'; updateDisplay();" aria-label="Two">2</button>
+    <button onclick="calculation+='3'; updateDisplay();" aria-label="Three">3</button>
+    <button onclick="calculation+='*'; updateDisplay();" class="operator" aria-label="Multiply">*</button>
+
+    <button onclick="calculation+='0'; updateDisplay();" aria-label="Zero">0</button>
+    <button onclick="calculation+='.'; updateDisplay();" aria-label="Decimal point">.</button>
+    <button onclick="
+      try {
+        calculation = calculation ? eval(calculation).toString() : '';
+      } catch {
+        calculation = 'Error';
+      }
+      updateDisplay();
+    " class="operator" aria-label="Equals">=</button>
+    <button onclick="calculation+='/'; updateDisplay();" class="operator" aria-label="Divide">/</button>
+
+    <button class="clear" onclick="calculation=''; updateDisplay(); console.log('cleared')" aria-label="Clear">CLEAR</button>
+  </div>
+</div>
+
+<script>
+  let calculation = "";
+
+  function updateDisplay() {
+    document.getElementById('display').textContent = calculation || "0";
+    console.log(calculation);
+  }
+</script>
+
+</body>
+</html>
